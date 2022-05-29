@@ -10,24 +10,24 @@ if (isset($_POST['addMedicine'])) {
     $medicine_title = $_POST['medicine_title'];
     $image_name = time() . $_FILES['image']['name'];
     $image_tmp = $_FILES['image']['tmp_name'];
-    $location = "upload/";
+    $location = "../../Images/";
     move_uploaded_file($image_tmp, $location . $image_name);
+    move_uploaded_file($image_tmp,$location);
     $medicine_description = $_POST['medicine_description'];
+    $quantity = $_POST['quantity'];
     $price = $_POST['price'];
-    $insert = "INSERT INTO `medicines` VALUES (NULL , '$medicine_title' , '$image_name' , '$medicine_description',$price)";
+    $insert = "INSERT INTO `medicines` VALUES (NULL , '$medicine_title' , '$image_name' , '$medicine_description',$price ,'$quantity ')";
     $i = mysqli_query($connect, $insert);
 }
 if (isset($_SESSION['pharmacist'])) {
 } else {
-    header('location:/Pharmacy/pharmacistPanel/pages-error-404.php');
+    // header('location:/Pharmacy/adminPanel/pages-error-404.php');
 }
 ?>
 
 <div class="mt-5">
     <h5 class="text-center display-6 mt-5"> Add Medicine </h5>
 </div>
-
-
 
 <div class="container col-md-6">
     <div class="card">
@@ -44,6 +44,10 @@ if (isset($_SESSION['pharmacist'])) {
                 <div class="mb-3">
                     <label class="form-label">Price</label>
                     <input type="text" name="price" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Quantity</label>
+                    <input type="text" name="quantity" class="form-control">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Medicine Image</label>

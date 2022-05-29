@@ -1,12 +1,15 @@
-<?php 
+<?php
 include "./general/env.php"; // error underfined session['email']
 include "./shared/head.php";
 include "./shared/header.php"; // error undeifined session['eamil']    error undefined session['name']
 
+//Select Medicines From Table medicines
+$select = "SELECT * FROM `medicines`";
+$medicine = mysqli_query($connect, $select);
+
+
 auth();
-// if($_SESION['email']!="" && $_SERVER['PHP_SELF']=="/userPanel/user/login.php") {
-//   header("location:userPanel/index.php");
-// }
+
 ?>
 
 <!-- ======= Hero Section ======= -->
@@ -16,11 +19,12 @@ auth();
     <h2>We are team of talented designers making websites with Bootstrap</h2>
     <a href="#about" class="btn-get-started scrollto">Get Started</a>
   </div>
-</section><!-- End Hero -->
+</section>
+<!-- End Hero -->
 
 <main id="main">
 
-  <!-- ======= Why Us Section ======= -->
+  <!-- ======= Start Why Us Section ======= -->
   <section id="why-us" class="why-us">
     <div class="container">
 
@@ -68,8 +72,25 @@ auth();
       </div>
 
     </div>
-  </section><!-- End Why Us Section -->
+  </section>
+  <!-- End Why Us Section -->
+  <!-- Start Show Medicines Section -->
+  <section class="show-medicine">
+    <div class="container">
+      <?php foreach ($medicine as $data) { ?>
+        <div class="card" style="width: 18rem;">
+          <img style="cursor: pointer;" src=".././Images/<?php echo $data['medicine_image']; ?>" class="card-img-top" alt="Panadol img">
+          <div class="card-body">
+            <h5 class="card-title"><?php echo $data['medicine_title'] ?></h5>
+            <p class="card-text"><?php echo $data['medicine_description'] ?></p>
+            <a href="/pharmacy/userPanel/user/product-details.php" class="d-grid gap-2 btn btn-dark">Order Now</a>
+          </div>
+        </div>
+      <?php } ?>
 
+    </div>
+  </section>
+  <!-- End Show Medicines Section -->
   <!-- ======= Contact Section ======= -->
   <section id="contact" class="contact">
     <div class="container">
@@ -83,9 +104,7 @@ auth();
     </div>
 
     <div>
-      <iframe style="border:0; width: 100%; height: 350px;"
-        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621"
-        frameborder="0" allowfullscreen></iframe>
+      <iframe style="border:0; width: 100%; height: 350px;" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" allowfullscreen></iframe>
     </div>
 
     <div class="container">
@@ -149,7 +168,7 @@ auth();
 
 </main><!-- End #main -->
 
-<?php 
+<?php
 include "./shared/footer.php";
 include "./shared/script.php";
 ?>
