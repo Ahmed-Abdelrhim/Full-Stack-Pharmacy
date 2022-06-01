@@ -5,7 +5,7 @@ include "./shared/header.php"; // error undeifined session['eamil']    error und
 
 //Select Medicines From Table medicines
 $select = "SELECT * FROM `medicines`";
-$medicine = mysqli_query($connect, $select);
+$s = mysqli_query($connect, $select);
 
 
 auth();
@@ -74,22 +74,27 @@ auth();
     </div>
   </section>
   <!-- End Why Us Section -->
+
   <!-- Start Show Medicines Section -->
   <section class="show-medicine">
+    <h5 class="text-center display-3"> Medicines </h5>
     <div class="container">
-      <?php foreach ($medicine as $data) { ?>
-        <div class="card" style="width: 18rem;">
-          <img style="cursor: pointer;" src=".././Images/<?php echo $data['medicine_image']; ?>" class="card-img-top" alt="Panadol img">
-          <div class="card-body">
-            <h5 class="card-title"><?php echo $data['medicine_title'] ?></h5>
-            <p class="card-text"><?php echo $data['medicine_description'] ?></p>
-            <a href="/pharmacy/userPanel/user/product-details.php" class="d-grid gap-2 btn btn-dark">Order Now</a>
+      <div class="med">
+        <?php foreach ($s as $data) { ?>
+          <div class="medicinecard"  >
+          <img src="/Pharmacy/images/<?php echo $data['medicine_image'] ?>" class="img-top" alt="">
+            <div class="card-body">
+              <h5 class="card-title"> <?php echo $data['medicine_title'] ?> </h5>
+              <p class="card-text"> <?php echo $data['medicine_description'] ?></p>
+              <a href="/pharmacy/userPanel/user/product-details.php" class="btn btn-warning w-50 "> Order Now </a>
+            </div>
           </div>
-        </div>
-      <?php } ?>
-
+        <?php } ?>
+      </div>
+    </div>
     </div>
   </section>
+
   <!-- End Show Medicines Section -->
   <!-- ======= Contact Section ======= -->
   <section id="contact" class="contact">
