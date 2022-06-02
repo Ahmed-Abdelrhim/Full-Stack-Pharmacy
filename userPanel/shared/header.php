@@ -17,8 +17,6 @@ auth();
           <li><a class="nav-link scrollto" href="/pharmacy/userPanel/user/pages-register.php">Register</a></li>
           <li><a class="nav-link scrollto" href="/pharmacy/userPanel/user/pages-login.php">Login</a></li>
         <?php } ?>
-        <li><a class="nav-link scrollto" href="/pharmacy/userPanel/user/list-medicines.php">Medicines</a></li>
-
         <li class="dropdown">
           <a href="#"><span>Orders</span>
             <i class="bi bi-chevron-down"></i>

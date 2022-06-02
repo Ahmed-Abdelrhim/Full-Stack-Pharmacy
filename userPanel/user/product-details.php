@@ -17,18 +17,24 @@ auth();
 <!-- Start Show Medicines Section -->
 <section class="show-medicine">
     <div class="container">
-        <?php foreach ($medicine as $data) { ?>
-            <div class="card" style="width: 18rem;">
-                <img src="../../Images/<?php echo $data['medicine_image']; ?>" class="card-img-top" alt="Panadol img">
-                <div class="card-body">
-                    <h5 class="card-title"><?php echo $data['medicine_title'] ?></h5>
-                    <p class="card-text"><?php echo $data['medicine_description'] ?></p>
-                    <form action="" method="GET">
-                        <a href="/pharmacy/userPanel/user/list-orders.php? med_id=<?php echo $data['id'] ?>" class="d-grid gap-2 btn btn-primary">Buy Now</a>
-                    </form>
+        <div class="row mt-5">
+
+            <?php foreach ($medicine as $data) { ?>
+                <div class="med">
+                    <div class="medicinecard">
+                        <img src="../../Images/<?php echo $data['medicine_image']; ?>" class="img-top" alt="">
+                        <div class="card-body">
+                            <h5 class="card-title text-center"><?php echo $data['medicine_title'] ?></h5>
+                            <p class="card-text" style="text-align: start; width:110%;"><?php echo $data['medicine_description'] ?></p>
+                            <h5 class="card-title text-center">Price: <?php echo $data['price'] ?> L.E</h5>
+                            <form action="list-orders.php" method="GET">
+                                <a href="/pharmacy/userPanel/user/list-orders.php ?med_id=<?php echo $data['id']; ?>" onclick="return confirm('Confirm to buy?')" class="d-grid gap-2 btn btn-primary">Buy Now</a>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        <?php } ?>
+            <?php } ?>
+        </div>
     </div>
 </section>
 <!-- name="buy" -->
