@@ -21,7 +21,7 @@ if (isset($_POST['createAcount'])) {
     $insert = "INSERT INTO `customers` VALUES (NULL , '$name' , '$email' , $phone, '$address' , '$password', '$image_name')";
     $i = mysqli_query($connect, $insert);
     if ($i) {
-      header("location:/pharmacy/userPanel/user/login.php ");
+      header("location:/pharmacy/userPanel/user/login.php");
     }
   }
 
