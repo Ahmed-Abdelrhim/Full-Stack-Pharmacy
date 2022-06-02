@@ -12,7 +12,6 @@ auth();
     <nav id="navbar" class="navbar order-last order-lg-0">
       <ul>
         <li><a class="nav-link scrollto active" href="/pharmacy/userPanel/index.php">Home</a></li>
-        <li><a class="nav-link scrollto" href="/pharmacy/userPanel/user/users-profile.php">Profile</a></li>
         <?php if ($_SESSION['email'] == "") { ?>
           <li><a class="nav-link scrollto" href="/pharmacy/userPanel/user/pages-register.php">Register</a></li>
           <li><a class="nav-link scrollto" href="/pharmacy/userPanel/user/pages-login.php">Login</a></li>
@@ -40,8 +39,8 @@ auth();
                 <span style="margin-left: 5px"> Profile</span>
               </a>
             </li>
-
-            <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+            <!-- action="< ?php $_SERVER['PHP_SELF']; ?>" -->
+            <form method="POST">
               <li>
                 <button class="btn btn-danger" name="logout">Logout</button>
               </li>
