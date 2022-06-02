@@ -41,13 +41,6 @@ auth();
               </a>
             </li>
 
-            <li style="display: flex ; justify-content: flex-start;">
-              <a href="/pharmacy/userPanel/user/my-orders.php">
-                <i class="fa-solid fa-clipboard-list"></i>
-                <span style="margin-left: 5px;">My orders</span>
-              </a>
-            </li>
-
             <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
               <li>
                 <button class="btn btn-danger" name="logout">Logout</button>
