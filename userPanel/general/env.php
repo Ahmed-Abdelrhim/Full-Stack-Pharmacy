@@ -13,9 +13,9 @@ function auth()
         header("location:/pharmacy/userPanel/user/login.php");
     }
 }
-if (isset($_POST['logout'])) {
-    session_unset();
-    session_destroy();
+if (isset($_POST['user-logout'])) {
+    session_unset($_SESSION['email'], $_SESSION['name']);
+    session_destroy($_SESSION['email'], $_SESSION['name']);
     header("location:/pharmacy/userPanel/user/login.php");
 }
 

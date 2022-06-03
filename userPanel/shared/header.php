@@ -26,8 +26,11 @@ auth();
         </li>
         <!-- dropdown-menu-end dropdown-menu-arrow profile -->
         <!-- ======= User Info ======= -->
+
         <li class="dropdown ">
-          <a href="#"><span><?php echo $_SESSION['name']; ?></span>
+          <a href="#">
+            <img src="/pharmacy/Images/abdelrhim-pic.jpg" alt="Profile" class="rounded-circle" style="max-height: 35px;">
+            <span><?php echo $_SESSION['name']; ?></span>
             <i class="bi bi-chevron-down"></i>
           </a>
 
@@ -42,7 +45,7 @@ auth();
             <!-- action="< ?php $_SERVER['PHP_SELF']; ?>" -->
             <form method="POST">
               <li>
-                <button class="btn btn-danger" name="logout">Logout</button>
+                <button class="btn btn-danger" name="user-logout">Logout</button>
               </li>
               <!-- <button class="btn btn-danger" name="logout">Logout</button> -->
             </form>

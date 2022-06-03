@@ -59,7 +59,7 @@ auth();
         <?php } ?>
 
         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="/pharmacy/adminPanel/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+            <img src="/pharmacy/Images/abdelrhim-pic.jpg" alt="Profile" class="rounded-circle">
             <span class="d-none d-md-block dropdown-toggle ps-2"><?php if(isset($_SESSION['adminEmail'])) {
                 echo $_SESSION['adminName'];
             } else {

@@ -18,6 +18,7 @@ if (isset($_POST['login'])) {
     $_SESSION['adminEmail'] = $row['email'];
     $_SESSION['adminName'] = $row['name'];
     $_SESSION['adminPhone'] = $row['phone'];
+    $_SESSION['adminPassword'] = $row['password'];
     header("location:/pharmacy/adminPanel/index.php");
   } 
 
@@ -33,6 +34,7 @@ if (isset($_POST['login'])) {
     $_SESSION['pharName'] = $row['name'];
     $_SESSION['pharPhone'] = $row['phone'];
     $_SESSION['pharBranch_id'] = $row['branch_id'];
+    $_SESSION['pharPassword'] = $row['password'];
     header("location:/pharmacy/adminPanel/index.php");
   } 
 }

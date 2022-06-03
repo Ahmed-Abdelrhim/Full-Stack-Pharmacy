@@ -43,25 +43,25 @@ if ($_SESSION['customer_id']) {
     header("location:/pharmacy/userPanel/user/users-profile.php");
   }
 }
-if (isset($_POST['save'])){
-
+$updatePassword = false;
+if (isset($_POST['save'])) {
   $currentPassword = $_POST['currentPassword'];
-  $id =$_SESSION['customer_id'];
-  $select = "SELECT * FROM `customers` where id = $id";
+  $newPassword = $_POST['newPassword'];
+  $confrimNewPassword = $_POST['confrimNewPassword'];
+  $id = $_SESSION['customer_id'];
+  $select = "SELECT * FROM `customers` WHERE customer_id = $id ";
   $s = mysqli_query($connect, $select);
   $row = mysqli_fetch_assoc($s);
 
-  if ($_POST['currentPassword'] == $row['password']){
-   if ($_POST['newPassword'] == $_POST['confrimNewPassword']){
-    $newpassword == $_POST['confrimNewPassword'];
-    $update = "UPDATE `customers` SET `password`= '$newpassword' where id = $id";
-    $UP = mysqli_query($connect,$update);
-   }
-    
-   
+  if ($currentPassword === $row['password']) {
+    if ($newPassword === $confrimNewPassword) {
+      $update = "UPDATE `customers` SET password = '$newPassword' WHERE customer_id = $id";
+      $UP = mysqli_query($connect, $update);
+      if ($UP) {
+        $updatePassword = true;
+      }
+    }
   }
- 
-
 }
 
 include "../shared/header.php";
@@ -86,20 +86,15 @@ include "../shared/header.php";
         <div class="card">
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-<<<<<<< HEAD
-            <img src="/pharmacy/images/<?php echo $row['image'] ?>" alt="Profile" class="rounded-circle">
-            <h2><?php echo $row['name'] ?></h2>
-            <h3><?php echo $row['email'] ?></h3>
-=======
-            <img src="/pharmacy/adminPanel/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <h2><?php echo $_SESSION['name']; ?></h2>
-            <!-- <h3>Web Designer</h3> -->
->>>>>>> 74e312b2208f02a736a761da485e4c4c7a7b9b96
+            <img src="/pharmacy/Images/<?php echo $_SESSION['image'] ?>" alt="Profile" class="rounded-circle">
+            <h2><?php echo $_SESSION['name'] ?></h2>
+            <h3><?php echo $_SESSION['email'] ?></h3>
             <div class="social-links mt-2">
               <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
               <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
               <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
               <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+              <!-- <a href="#" class="linkedin"><?php echo $_SESSION['customer_id'] ?></a> -->
             </div>
           </div>
         </div>
@@ -129,42 +124,43 @@ include "../shared/header.php";
             <div class="tab-content pt-2">
 
               <div class="tab-pane fade show active profile-overview" id="profile-overview">
-<<<<<<< HEAD
-=======
                 <h5 class="card-title">About</h5>
                 <p class="small fst-italic">Hi <?php echo $_SESSION['name'] ?> here is an overview of your information about your profile if you need to edit your profile information.</p>
->>>>>>> 74e312b2208f02a736a761da485e4c4c7a7b9b96
 
 
                 <div class="row">
-<<<<<<< HEAD
                   <div class="col-lg-3 col-md-4 label ">Full Name :</div>
-                  <div class="col-lg-9 col-md-8"> <?php echo $row['name'] ?> </div>
+                  <div class="col-lg-9 col-md-8"> <?php echo $_SESSION['name'] ?> </div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Address :</div>
-                  <div class="col-lg-9 col-md-8"><?php echo $row['address'] ?></div>
+                  <div class="col-lg-9 col-md-8"><?php echo $_SESSION['address'] ?></div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Phone :</div>
-                  <div class="col-lg-9 col-md-8"><?php echo $row['phone'] ?></div>
+                  <div class="col-lg-9 col-md-8">0<?php echo $_SESSION['phone'] ?></div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Email :</div>
-                  <div class="col-lg-9 col-md-8"><?php echo $row['email'] ?></div>
+                  <div class="col-lg-9 col-md-8"><?php echo $_SESSION['email'] ?></div>
                 </div>
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">image</div>
-                  <div class="col-lg-9 col-md-8"><img class="rounded-circle" class="img-top" width="200px" src="/pharmacy/images/<?php echo $row['image'] ?>"> </div>
+                  <div class="col-lg-9 col-md-8"><img class="rounded-circle" class="img-top" width="200px" src="/pharmacy/Images/<?php echo $_SESSION['image'] ?>"> </div>
                 </div>
 
-=======
-                  <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                <?php if ($updatePassword) { ?>
+                  <div class="alert alert-success">Password Updated Sucessfully</div>
+                <?php } ?>
+
+
+
+                <!-- <div class="col-lg-3 col-md-4 label ">Full Name</div>
                   <div class="col-lg-9 col-md-8"><?php echo $_SESSION['name']; ?></div>
-                </div>
+                </div> -->
 
                 <!-- <div class="row">
                   <div class="col-lg-3 col-md-4 label">Company</div>
@@ -176,7 +172,7 @@ include "../shared/header.php";
                   <div class="col-lg-9 col-md-8">Web Designer</div>
                 </div> -->
 
-                <div class="row">
+                <!-- <div class="row">
                   <div class="col-lg-3 col-md-4 label">Country</div>
                   <div class="col-lg-9 col-md-8">Egypt</div>
                 </div>
@@ -194,8 +190,7 @@ include "../shared/header.php";
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Email</div>
                   <div class="col-lg-9 col-md-8"><?php echo $_SESSION['email'] ?></div>
-                </div>
->>>>>>> 74e312b2208f02a736a761da485e4c4c7a7b9b96
+                </div> -->
 
               </div>
               <!-- end show -->
@@ -207,9 +202,9 @@ include "../shared/header.php";
                   <div class="row mb-3">
                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                     <div class="col-md-8 col-lg-9">
-                      <img src="/pharmacy/images/<?php echo $row['image'] ?>" alt="Profile">
+                      <img src="/pharmacy/images/<?php echo $_SESSION['image'] ?>" alt="Profile">
                       <div class="pt-2">
-                      <input class="form-control" name="image" type="file">
+                        <input class="form-control" name="image" type="file">
                       </div>
                     </div>
                   </div>
@@ -217,7 +212,6 @@ include "../shared/header.php";
                   <div class="row mb-3">
                     <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                     <div class="col-md-8 col-lg-9">
-<<<<<<< HEAD
                       <input name="name" type="text" class="form-control" id="fullName" value="<?php echo $name ?>">
                     </div>
                   </div>
@@ -225,8 +219,6 @@ include "../shared/header.php";
                     <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="address" type="text" class="form-control" id="Address" value="<?php echo $address ?>">
-=======
-                      <input name="fullName" type="text" class="form-control" id="fullName" value="<?php echo $_SESSION['name']; ?>">
                     </div>
                   </div>
 
@@ -262,28 +254,22 @@ include "../shared/header.php";
                     <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="address" type="text" class="form-control" id="Address" value="<?php echo $_SESSION['address']; ?>">
->>>>>>> 74e312b2208f02a736a761da485e4c4c7a7b9b96
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                     <div class="col-md-8 col-lg-9">
-<<<<<<< HEAD
-                      <input name="phone" type="text" class="form-control" id="Phone" value="<?php echo $phone ?>">
-=======
-                      <input name="phone" type="text" class="form-control" id="Phone" value="0<?php echo $_SESSION['phone']; ?>">
->>>>>>> 74e312b2208f02a736a761da485e4c4c7a7b9b96
+                      <input name="phone" type="text" class="form-control" id="Phone" value="0<?php echo $phone ?>">
+                      <!-- <input name="phone" type="text" class="form-control" id="Phone" value="0<?php echo $_SESSION['phone']; ?>"> -->
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                     <div class="col-md-8 col-lg-9">
-<<<<<<< HEAD
                       <input name="email" type="email" class="form-control" id="Email" value="<?php echo $email ?>">
-=======
-                      <input name="email" type="email" class="form-control" id="Email" value="<?php echo $_SESSION['email']; ?>">
+                      <!-- <input name="email" type="email" class="form-control" id="Email" value="<?php echo $_SESSION['email']; ?>"> -->
                     </div>
                   </div>
 
@@ -312,7 +298,6 @@ include "../shared/header.php";
                     <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="linkedin" type="text" class="form-control" id="Linkedin" value="https://linkedin.com/#">
->>>>>>> 74e312b2208f02a736a761da485e4c4c7a7b9b96
                     </div>
                   </div> -->
 
@@ -320,6 +305,7 @@ include "../shared/header.php";
                     <button name="update" type="submit" class="btn btn-primary">Save Changes</button>
                   </div>
                 </form>
+
                 <!-- End Profile Edit Form -->
 
               </div>
@@ -397,7 +383,7 @@ include "../shared/header.php";
                   </div>
 
                   <div class="text-center">
-                    <button  name="save" type="submit" class="btn btn-primary">Change Password</button>
+                    <button name="save" class="btn btn-primary">Change Password</button>
                   </div>
                 </form>
                 <!-- End Change Password Form -->
