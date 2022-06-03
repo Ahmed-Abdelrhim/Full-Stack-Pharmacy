@@ -18,6 +18,7 @@ if (isset($_POST['login'])) {
         $_SESSION['password'] = $row['password'];
         $_SESSION['image'] = $row['image'];
         $_SESSION['customer_id'] = $row['customer_id'];
+        $_SESSION['userImage'] = $row['image'];
         header("location:/pharmacy/userPanel/index.php");
     }
     // else {

@@ -8,11 +8,15 @@ if (isset($_POST['createAcount'])) {
   $phone = $_POST['phone'];
   $address = $_POST['address'];
   $password = $_POST['password'];
-  $image_name = time() . $_FILES['image']['name'];
+  // $image_name = time() . $_FILES['image']['name'];
+  // $image_tmp = $_FILES['image']['tmp_name'];
+  // $location = "../../Images/";
+
   $image_tmp = $_FILES['image']['tmp_name'];
   $location = "../../Images/";
-  // $email = filter_var($email, FILTER_VALIDATE_EMAIL);
-  // $phone = filter_var($phone, FILTER_VALIDATE_INT);
+  $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+  $_FILES['image']['name'] = $_POST['name'] . $_POST['phone'] . "." . $extension;
+  $image_name = $_FILES['image']['name'];
 
   if (empty($name) || empty($email) || empty($password) || empty($password)) {
     $userRegisterFailed = true;

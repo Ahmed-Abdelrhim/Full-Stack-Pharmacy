@@ -19,22 +19,24 @@ if (isset($_POST['login'])) {
     $_SESSION['adminName'] = $row['name'];
     $_SESSION['adminPhone'] = $row['phone'];
     $_SESSION['adminPassword'] = $row['password'];
+    $_SESSION['adminImage'] = $row['image'];
     header("location:/pharmacy/adminPanel/index.php");
   } 
 
   //pharmcisit select
   $pharmcisit = "SELECT * FROM `pharmacist` WHERE `email` = '$email' and `password` = '$password' ";
   $pharmcisitSel = mysqli_query($connect, $pharmcisit);
-  $row = mysqli_fetch_assoc($pharmcisitSel);
+  $rowPhar = mysqli_fetch_assoc($pharmcisitSel);
 
   //pharmcisit check 
   if (mysqli_query($connect, $pharmcisit)) {
-    $_SESSION['pharID'] = $row['id'];
-    $_SESSION['pharEmail'] = $row['email'];
-    $_SESSION['pharName'] = $row['name'];
-    $_SESSION['pharPhone'] = $row['phone'];
-    $_SESSION['pharBranch_id'] = $row['branch_id'];
-    $_SESSION['pharPassword'] = $row['password'];
+    $_SESSION['pharID'] = $rowPhar['id'];
+    $_SESSION['pharEmail'] = $rowPhar['email'];
+    $_SESSION['pharName'] = $rowPhar['name'];
+    $_SESSION['pharPhone'] = $rowPhar['phone'];
+    $_SESSION['pharBranch_id'] = $rowPhar['branch_id'];
+    $_SESSION['pharPassword'] = $rowPhar['password'];
+    $_SESSION['pharImage'] = $rowPhar['image'];
     header("location:/pharmacy/adminPanel/index.php");
   } 
 }

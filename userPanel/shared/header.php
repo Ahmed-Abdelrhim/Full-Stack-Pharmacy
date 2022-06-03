@@ -29,7 +29,7 @@ auth();
 
         <li class="dropdown ">
           <a href="#">
-            <img src="/pharmacy/Images/abdelrhim-pic.jpg" alt="Profile" class="rounded-circle" style="max-height: 35px;">
+            <img src="/pharmacy/Images/<?php echo $_SESSION['userImage'] ?>" alt="Profile" class="rounded-circle" style="max-height: 35px;">
             <span><?php echo $_SESSION['name']; ?></span>
             <i class="bi bi-chevron-down"></i>
           </a>

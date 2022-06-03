@@ -7,6 +7,7 @@ auth();
 
 $select = "SELECT * FROM `branches`";
 $branch = mysqli_query($connect, $select);
+$wrongData = false;
 
 if (isset($_POST['addPharmacist'])) {
     $name = $_POST['name'];
@@ -14,13 +15,23 @@ if (isset($_POST['addPharmacist'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $branch_id = $_POST['branch_id'];
-    $insert = "INSERT INTO `pharmacist` VALUES  (NULL,'$name' , $phone , '$email' , '$password' , $branch_id )";
-    $i = mysqli_query($connect, $insert);
-    if ($i) {
-        $addedPharmacist = true;
+    $image_tmp = $_FILES['image']['tmp_name'];
+    $location = "../../Images/";
+    $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+    $_FILES['image']['name'] = $_POST['name'] . $_POST['phone'] . "." . $extension;
+    $image_name = $_FILES['image']['name'];
+    if(empty($name) || empty($phone) || empty($email) || empty($password) || empty($image_name)) {
+        $wrongData = true;
     } else {
-        $addedPharmacist = false;
+        $insert = "INSERT INTO `pharmacist` VALUES  (NULL,'$name' , $phone , '$email' , '$password' , $branch_id ,'$image_name')";
+        $i = mysqli_query($connect, $insert);
+        if($i) {
+            $insertedSucess = true;
+        } else {
+            $wrongData = true;
+        } 
     }
+
 }
 //INSERT INTO `pharmacist`('name','phone','email','password','branch_id') VALUES ('yasser' , '011500' , 'yasser@gmail.com' , 011500 , 1);
 //INSERT INTO `pharmacist` VALUES (NULL,'yasser' , '011500' , 'yasser@gmail.com' , 011500 , 1);
@@ -33,7 +44,7 @@ if (isset($_POST['addPharmacist'])) {
 <div class="container col-md-6">
     <div class="card">
         <div class="card-body">
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label>Name</label>
                     <input name="name" type="text" class="form-control">
@@ -58,14 +69,21 @@ if (isset($_POST['addPharmacist'])) {
                         <?php } ?>
                     </select>
                 </div>
+
+                <div class="mb-3">
+                    <label>Image</label>
+                    <input name="image" type="file" class="form-control">
+                </div>
+
                 <div class="d-grid gap-2">
                     <button class="btn btn-outline-success" name="addPharmacist">Add Pharmacist</button>
                 </div>
             </form>
-            <?php if(isset($addedPharmacist) && $addedPharmacist == true){ ?>
-                <div class="alert alert-success mt-3">Inserted Successfully Into Database</div>
-            <?php } if (isset($addedPharmacist)&& $addedPharmacist == false) { ?>
-                <div class="alert alert-danger mt-3">Something Went Wrong!</div>
+            <?php if (isset($insertedSucess)) { ?>
+                <div class="alert alert-success mt-3">Inserted Successfully Into Database.</div>
+            <?php }
+            if ($wrongData) { ?>
+                <div class="alert alert-danger mt-3">Something Went Wrong! Enter Valid Data</div>
             <?php } ?>
         </div>
     </div>

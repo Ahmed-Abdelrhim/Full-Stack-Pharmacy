@@ -54,12 +54,14 @@ auth();
         <!--S -->
         <?php if (isset($_SESSION['adminEmail'])) { ?>
             <li class="nav-item">
-                <a class="nav-link" href="/pharmacy/adminPanel/admin/add-admin.php">Admin</a>
+                <a class="nav-link" href="/pharmacy/adminPanel/admin/add-admin.php">Admin </a>
             </li>
         <?php } ?>
 
         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="/pharmacy/Images/abdelrhim-pic.jpg" alt="Profile" class="rounded-circle">
+            <img src="/pharmacy/Images/<?php if (isset($_SESSION['adminEmail'])) {echo $_SESSION['adminImage'];
+            } else {echo $_SESSION['pharImage'];} ?>" alt="Profile" class="rounded-circle">
+
             <span class="d-none d-md-block dropdown-toggle ps-2"><?php if(isset($_SESSION['adminEmail'])) {
                 echo $_SESSION['adminName'];
             } else {

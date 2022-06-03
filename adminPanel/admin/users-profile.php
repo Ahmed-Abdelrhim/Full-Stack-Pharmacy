@@ -4,7 +4,28 @@ include "../shared/head.php";
 include "../shared/header.php";
 include "../shared/side.php";
 auth();
+$updatePassword = false;
+if (isset($_POST['save'])) {
+  $currentPassword = $_POST['currentPassword'];
+  $newPassword = $_POST['newPassword'];
+  $confrimNewPassword = $_POST['confrimNewPassword'];
+  $id = $_SESSION['adminID'];
+  $select = "SELECT * FROM `admin` WHERE id = $id ";
+  $s = mysqli_query($connect, $select);
+  $row = mysqli_fetch_assoc($s);
 
+  if ($currentPassword === $row['password']) {
+    if ($newPassword === $confrimNewPassword) {
+      $id = $_SESSION['adminID'];
+      $newPassword = $_POST['newPassword'];
+      $update = "UPDATE `admin` SET password = '$newPassword' WHERE id = $id";
+      $UP = mysqli_query($connect, $update);
+      if ($UP) {
+        $updatePassword = true;
+      }
+    }
+  }
+}
 ?>
 
 <main id="main" class="main">
@@ -27,10 +48,11 @@ auth();
         <div class="card">
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-            <!-- <img src="/adminPanel/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
-            <img src="../../Images/abdelrhim-pic.jpg" alt="Profile" class="rounded-circle">
+            <img src="/pharmacy/Images/<?php if(isset($_SESSION['adminEmail'])) {echo $_SESSION['adminImage'];
+            } else {echo $_SESSION['pharImage'];} ?>" alt="Profile" class="rounded-circle">
 
-            <h2><?php echo $_SESSION['adminName']; ?></h2>
+            <h2><?php if (isset($_SESSION['adminEmail'])) {echo $_SESSION['adminName']; } 
+            else {echo $_SESSION['pharName'];} ?></h2>
             <h3>Full Stack Developer</h3>
             <div class="social-links mt-2">
               <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
@@ -67,19 +89,16 @@ auth();
 
               <div class="tab-pane fade show active profile-overview" id="profile-overview">
                 <h5 class="card-title">About</h5>
-                <p class="small fst-italic">Hi <?php echo $_SESSION['adminName']; ?> here is your profile information that you can edit any of your email information.</p>
+                <p class="small fst-italic">Hi <?php if(isset($_SESSION['adminEmail'])) {echo $_SESSION['adminName'];} 
+                else {echo $_SESSION['pharName'];}?>here is your profile information that you can edit any of your email information.</p>
 
                 <h5 class="card-title">Profile Details</h5>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                  <div class="col-lg-9 col-md-8"><?php echo $_SESSION['adminName']; ?></div>
+                  <div class="col-lg-9 col-md-8"><?php  if (isset($_SESSION['adminEmail'])) {echo $_SESSION['adminName'];} 
+                else {echo $_SESSION['pharName'];}?></div>
                 </div>
-
-                <!-- <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Company</div>
-                  <div class="col-lg-9 col-md-8">Lueilwitz, Wisoky and Leuschke</div>
-                </div> -->
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Job</div>
@@ -91,20 +110,21 @@ auth();
                   <div class="col-lg-9 col-md-8">Egypt</div>
                 </div>
 
-                <!-- <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Address</div>
-                  <div class="col-lg-9 col-md-8"><?php ?></div>
-                </div> -->
-
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Phone</div>
-                  <div class="col-lg-9 col-md-8"><?php echo $_SESSION['adminPhone']; ?></div>
+                  <div class="col-lg-9 col-md-8">0<?php  if (isset($_SESSION['adminEmail'])) {echo $_SESSION['adminPhone'];} 
+                else {echo $_SESSION['pharPhone'];}?></div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Email</div>
-                  <div class="col-lg-9 col-md-8"><?php echo $_SESSION['adminEmail']; ?> </div>
+                  <div class="col-lg-9 col-md-8"><?php if (isset($_SESSION['adminEmail'])) {echo $_SESSION['adminEmail'];} 
+                else {echo $_SESSION['pharEmail'];}?> </div>
                 </div>
+
+                <?php if ($updatePassword) { ?>
+                  <div class="alert alert-success">Password Updated Sucessfully</div>
+                <?php } ?>
 
               </div>
 
@@ -115,7 +135,9 @@ auth();
                   <div class="row mb-3">
                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                     <div class="col-md-8 col-lg-9">
-                      <img src="assets/img/profile-img.jpg" alt="Profile">
+                      <!-- <img src="assets/img/profile-img.jpg" alt="Profile"> -->
+                      <img src="/pharmacy/Images/<?php if(isset($_SESSION['adminImage'])) {echo $_SESSION['adminImage'];
+                      } else {echo $_SESSION['pharImage'];} ?>" alt="Profile">
                       <div class="pt-2">
                         <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
                         <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
@@ -126,23 +148,22 @@ auth();
                   <div class="row mb-3">
                     <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="fullName" type="text" class="form-control" id="fullName" value="<?php echo $_SESSION['adminName'] ?>">
+                      <input name="fullName" type="text" class="form-control" id="fullName" value="<?php  
+                      if (isset($_SESSION['adminEmail'])) {echo $_SESSION['adminName'];} 
+                      else {echo $_SESSION['pharName'];}?>">
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
                     <div class="col-md-8 col-lg-9">
-                      <textarea name="about" class="form-control" id="about" style="height: 100px">Hi <?php echo $_SESSION['adminName']; ?> here is your profile information that you can edit any of your email information.</textarea>
+                      <p name="about" class="form-control" id="about" style="height: 100px"> 
+                        Hi <?php if(isset($_SESSION['adminEmail'])) {echo $_SESSION['adminName'];} 
+                        else {echo $_SESSION['pharName'];}?>
+                        here is your profile information that you can edit any of your email information.
+                      </p>
                     </div>
                   </div>
-
-                  <!-- <div class="row mb-3">
-                    <label for="company" class="col-md-4 col-lg-3 col-form-label">Company</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="company" type="text" class="form-control" id="company" value="Lueilwitz, Wisoky and Leuschke">
-                    </div>
-                  </div> -->
 
                   <div class="row mb-3">
                     <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
@@ -158,54 +179,23 @@ auth();
                     </div>
                   </div>
 
-                  <!-- <div class="row mb-3">
-                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="address" type="text" class="form-control" id="Address" value="A108 Adam Street, New York, NY 535022">
-                    </div>
-                  </div> -->
-
                   <div class="row mb-3">
                     <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="phone" type="text" class="form-control" id="Phone" value="<?php echo $_SESSION['adminPhone'] ?>">
+                      <input name="phone" type="text" class="form-control" id="Phone" value="0<?php 
+                      if (isset($_SESSION['adminEmail'])) {echo $_SESSION['adminPhone'];} 
+                      else {echo $_SESSION['pharPhone'];}?>">
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="email" type="email" class="form-control" id="Email" value="<?php echo $_SESSION['adminEmail'] ?>">
+                      <input name="email" type="email" class="form-control" id="Email" value="<?php 
+                      if (isset($_SESSION['adminEmail'])) {echo $_SESSION['adminEmail'];} 
+                      else {echo $_SESSION['pharEmail'];}?>">
                     </div>
                   </div>
-
-                  <!-- <div class="row mb-3">
-                    <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="twitter" type="text" class="form-control" id="Twitter" value="https://twitter.com/#">
-                    </div>
-                  </div> -->
-
-                  <!-- <div class="row mb-3">
-                    <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="facebook" type="text" class="form-control" id="Facebook" value="https://facebook.com/#">
-                    </div>
-                  </div> -->
-
-                  <!-- <div class="row mb-3">
-                    <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="instagram" type="text" class="form-control" id="Instagram" value="https://instagram.com/#">
-                    </div>
-                  </div> -->
-
-                  <!-- <div class="row mb-3">
-                    <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="linkedin" type="text" class="form-control" id="Linkedin" value="https://linkedin.com/#">
-                    </div>
-                  </div> -->
 
                   <div class="text-center">
                     <button type="submit" class="btn btn-primary">Save Changes</button>
@@ -217,30 +207,30 @@ auth();
 
               <div class="tab-pane fade pt-3" id="profile-change-password">
                 <!-- Change Password Form -->
-                <form>
+                <form method="POST">
                   <div class="row mb-3">
                     <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="password" type="password" class="form-control" id="currentPassword">
+                      <input name="currentPassword" type="password" class="form-control" id="currentPassword">
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="newpassword" type="password" class="form-control" id="newPassword">
+                      <input name="newPassword" type="password" class="form-control" id="newPassword">
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                      <input name="confrimNewPassword" type="password" class="form-control" id="renewPassword">
                     </div>
                   </div>
 
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Change Password</button>
+                    <button name="save" class="btn btn-primary">Change Password</button>
                   </div>
                 </form>
                 <!-- End Change Password Form -->

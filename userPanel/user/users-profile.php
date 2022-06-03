@@ -1,6 +1,7 @@
 <?php
 include "../general/env.php";
 include "../shared/head.php";
+include "../shared/header.php";
 
 auth();
 
@@ -64,7 +65,6 @@ if (isset($_POST['save'])) {
   }
 }
 
-include "../shared/header.php";
 ?>
 
 <main id="main" class="main">
@@ -86,7 +86,7 @@ include "../shared/header.php";
         <div class="card">
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-            <img src="/pharmacy/Images/<?php echo $_SESSION['image'] ?>" alt="Profile" class="rounded-circle">
+            <img src="/pharmacy/Images/<?php echo $_SESSION['userImage'] ?>" alt="Profile" class="rounded-circle">
             <h2><?php echo $_SESSION['name'] ?></h2>
             <h3><?php echo $_SESSION['email'] ?></h3>
             <div class="social-links mt-2">
@@ -155,43 +155,6 @@ include "../shared/header.php";
                 <?php if ($updatePassword) { ?>
                   <div class="alert alert-success">Password Updated Sucessfully</div>
                 <?php } ?>
-
-
-
-                <!-- <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                  <div class="col-lg-9 col-md-8"><?php echo $_SESSION['name']; ?></div>
-                </div> -->
-
-                <!-- <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Company</div>
-                  <div class="col-lg-9 col-md-8">Lueilwitz, Wisoky and Leuschke</div>
-                </div> -->
-
-                <!-- <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Job</div>
-                  <div class="col-lg-9 col-md-8">Web Designer</div>
-                </div> -->
-
-                <!-- <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Country</div>
-                  <div class="col-lg-9 col-md-8">Egypt</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Address</div>
-                  <div class="col-lg-9 col-md-8"><?php echo $_SESSION['address']; ?></div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Phone</div>
-                  <div class="col-lg-9 col-md-8">0<?php echo $_SESSION['phone']; ?></div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Email</div>
-                  <div class="col-lg-9 col-md-8"><?php echo $_SESSION['email'] ?></div>
-                </div> -->
-
               </div>
               <!-- end show -->
 
@@ -202,7 +165,7 @@ include "../shared/header.php";
                   <div class="row mb-3">
                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                     <div class="col-md-8 col-lg-9">
-                      <img src="/pharmacy/images/<?php echo $_SESSION['image'] ?>" alt="Profile">
+                      <img src="/pharmacy/images/<?php echo $_SESSION['userImage'] ?>" alt="Profile">
                       <div class="pt-2">
                         <input class="form-control" name="image" type="file">
                       </div>
@@ -229,20 +192,6 @@ include "../shared/header.php";
                     </div>
                   </div>
 
-                  <!-- <div class="row mb-3">
-                    <label for="company" class="col-md-4 col-lg-3 col-form-label">Company</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="company" type="text" class="form-control" id="company" value="Lueilwitz, Wisoky and Leuschke">
-                    </div>
-                  </div> -->
-
-                  <!-- <div class="row mb-3">
-                    <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="job" type="text" class="form-control" id="Job" value="Web Designer">
-                    </div>
-                  </div> -->
-
                   <div class="row mb-3">
                     <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
                     <div class="col-md-8 col-lg-9">
@@ -261,7 +210,6 @@ include "../shared/header.php";
                     <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="phone" type="text" class="form-control" id="Phone" value="0<?php echo $phone ?>">
-                      <!-- <input name="phone" type="text" class="form-control" id="Phone" value="0<?php echo $_SESSION['phone']; ?>"> -->
                     </div>
                   </div>
 
@@ -269,37 +217,8 @@ include "../shared/header.php";
                     <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="email" type="email" class="form-control" id="Email" value="<?php echo $email ?>">
-                      <!-- <input name="email" type="email" class="form-control" id="Email" value="<?php echo $_SESSION['email']; ?>"> -->
                     </div>
                   </div>
-
-                  <!-- <div class="row mb-3">
-                    <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="twitter" type="text" class="form-control" id="Twitter" value="https://twitter.com/#">
-                    </div>
-                  </div> -->
-
-                  <!-- <div class="row mb-3">
-                    <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="facebook" type="text" class="form-control" id="Facebook" value="https://facebook.com/#">
-                    </div>
-                  </div> -->
-
-                  <!-- <div class="row mb-3">
-                    <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="instagram" type="text" class="form-control" id="Instagram" value="https://instagram.com/#">
-                    </div>
-                  </div> -->
-
-                  <!-- <div class="row mb-3">
-                    <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="linkedin" type="text" class="form-control" id="Linkedin" value="https://linkedin.com/#">
-                    </div>
-                  </div> -->
 
                   <div class="text-center">
                     <button name="update" type="submit" class="btn btn-primary">Save Changes</button>
@@ -310,16 +229,9 @@ include "../shared/header.php";
 
               </div>
 
-
-
-
               <div class="tab-pane fade pt-3" id="profile-settings">
-
                 <!-- Settings Form -->
-
-
                 <form>
-
                   <div class="row mb-3">
                     <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email Notifications</label>
                     <div class="col-md-8 col-lg-9">
@@ -407,3 +319,4 @@ include "../shared/header.php";
 include "../shared/footer.php";
 include "../shared/script.php";
 ?>
+

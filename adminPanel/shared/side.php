@@ -49,22 +49,6 @@
                 <span>Branches</span>
             </a>
         </li>
-        <!-- End Branches Page Nav -->
-        <!-- <li class="nav-item">
-            <a class="nav-link collapsed" href="/pharmacy/adminPanel/admin/pages-login.php">
-                <i class="bi bi-box-arrow-in-right"></i>
-                <span>Login</span>
-            </a>
-        </li> -->
-        <!-- End Login Page Nav -->
-
-        <!-- <li class="nav-item">
-            <a class="nav-link collapsed" href="/pharmacy/adminPanel/pages-error-404.php">
-                <i class="bi bi-dash-circle"></i>
-                <span>Error 404</span>
-            </a>
-        </li> -->
-        <!-- End Error 404 Page Nav -->
 
     </ul>
 
