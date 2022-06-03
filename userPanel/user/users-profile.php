@@ -3,8 +3,6 @@ include "../general/env.php";
 include "../shared/head.php";
 include "../shared/header.php";
 
-auth();
-
 $id =  $_SESSION['customer_id'];
 $select = "SELECT * FROM `customers` where customer_id= $id";
 $cust = mysqli_query($connect, $select);
@@ -14,9 +12,7 @@ $name = "";
 $email = "";
 $phone = "";
 $address = "";
-
 $update = false;
-
 
 if ($_SESSION['customer_id']) {
   $id =  $_SESSION['customer_id'];
@@ -30,32 +26,48 @@ if ($_SESSION['customer_id']) {
   $image_name = $row['image'];
 
   if (isset($_POST['update'])) {
-    $update = true;
+    //Get Name, Phone, Address Values 
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $address = $_POST['address'];
-    $image_name = time() . $_FILES['image']['name'];
-    $image_tmp = $_FILES['image']['tmp_name'];
+
+    //Change Customer Image If Customer Changes It
     $location = "../../Images/";
+    $image_tmp = $_FILES['image']['tmp_name'];
+    $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+    $_FILES['image']['name'] = trim($_POST['name']) . trim($_POST['phone']) . '.' . $extension;
+    $image_name = $_FILES['image']['name'];
     move_uploaded_file($image_tmp, $location . $image_name);
-    $update = "UPDATE `customers` SET `name`= '$name' ,`email`= '$email' , phone = $phone ,`address`= '$address', `image`='$image_name' where customer_id = $id";
+
+    //Update Table User With The New Values
+    $update = "UPDATE `customers` SET `name`= '$name' ,`email`= '$email' , phone = $phone ,`address`= '$address', `image`='$image_name' WHERE customer_id = $id";
     $UP = mysqli_query($connect,  $update);
-    header("location:/pharmacy/userPanel/user/users-profile.php");
+    if($UP) {
+      $reload = true;
+    }
   }
 }
+
+//Change Password
 $updatePassword = false;
 if (isset($_POST['save'])) {
+  //Get CurrentPassword, newPassword, confrimNewPassword Values
   $currentPassword = $_POST['currentPassword'];
   $newPassword = $_POST['newPassword'];
   $confrimNewPassword = $_POST['confrimNewPassword'];
   $id = $_SESSION['customer_id'];
+
+  //Select From Customers Table
   $select = "SELECT * FROM `customers` WHERE customer_id = $id ";
   $s = mysqli_query($connect, $select);
   $row = mysqli_fetch_assoc($s);
 
+  //Check If Customer Password He Entered Identical To Current Password
   if ($currentPassword === $row['password']) {
+    //Check If newPassword Identical confrimNewPassword
     if ($newPassword === $confrimNewPassword) {
+      //If Identical Update Customer Password
       $update = "UPDATE `customers` SET password = '$newPassword' WHERE customer_id = $id";
       $UP = mysqli_query($connect, $update);
       if ($UP) {
@@ -64,6 +76,7 @@ if (isset($_POST['save'])) {
     }
   }
 }
+auth();
 
 ?>
 
@@ -152,6 +165,10 @@ if (isset($_POST['save'])) {
                   <div class="col-lg-9 col-md-8"><img class="rounded-circle" class="img-top" width="200px" src="/pharmacy/Images/<?php echo $_SESSION['image'] ?>"> </div>
                 </div>
 
+                <?php if(isset($reload)) { ?>
+                  <div class="alert alert-primary">Plaese Logout and sign in again to save changes</div>
+                <?php } ?>
+
                 <?php if ($updatePassword) { ?>
                   <div class="alert alert-success">Password Updated Sucessfully</div>
                 <?php } ?>
@@ -165,7 +182,7 @@ if (isset($_POST['save'])) {
                   <div class="row mb-3">
                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                     <div class="col-md-8 col-lg-9">
-                      <img src="/pharmacy/images/<?php echo $_SESSION['userImage'] ?>" alt="Profile">
+                      <img src="../../Images/<?php echo $_SESSION['userImage'] ?>" alt="Profile">
                       <div class="pt-2">
                         <input class="form-control" name="image" type="file">
                       </div>
@@ -178,12 +195,13 @@ if (isset($_POST['save'])) {
                       <input name="name" type="text" class="form-control" id="fullName" value="<?php echo $name ?>">
                     </div>
                   </div>
-                  <div class="row mb-3">
+
+                  <!-- <div class="row mb-3">
                     <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="address" type="text" class="form-control" id="Address" value="<?php echo $address ?>">
                     </div>
-                  </div>
+                  </div> -->
 
                   <div class="row mb-3">
                     <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
@@ -319,4 +337,3 @@ if (isset($_POST['save'])) {
 include "../shared/footer.php";
 include "../shared/script.php";
 ?>
-
