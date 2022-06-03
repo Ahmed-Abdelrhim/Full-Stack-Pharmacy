@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2022 at 09:18 PM
+-- Generation Time: Jun 03, 2022 at 08:31 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -32,20 +32,16 @@ CREATE TABLE `admin` (
   `name` varchar(50) NOT NULL,
   `phone` int(25) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`id`, `name`, `phone`, `email`, `password`) VALUES
-(3, 'mohamed wael', 101010, 'mohamedwaelol74@gmail.com', '1010'),
-(4, 'Mostafa Mohamed', 1206556130, 'mostafamohamed@gmail.com', '1111'),
-(5, 'Ahmed Abdelrhim', 1152067271, 'abdelrhim@gmail.com', '123'),
-(6, 'ahmed ebrahim', 0, 'ahmedebrahim@gmail.com', '3333'),
-(7, 'mostafa gamal', 505050, 'mostafagamal@gmail.com', '4444'),
-(9, 'Ahmed Abdelrhim', 1152067271, 'ahmed@gmail.com', '123');
+INSERT INTO `admin` (`id`, `name`, `phone`, `email`, `password`, `image`) VALUES
+(1, 'Ahmed Abdelrhim', 1152067271, 'ahmed@gmail.com', '123', 'Ahmed Abdelrhim01152067271.jpg');
 
 -- --------------------------------------------------------
 
@@ -64,11 +60,10 @@ CREATE TABLE `branches` (
 --
 
 INSERT INTO `branches` (`branch_id`, `location`, `manger_id`) VALUES
-(1, 'Helwan', 3),
-(2, 'Banha', 4),
-(3, 'Maasra', 5),
-(4, 'Zagazig', 7),
-(5, 'Hawamdya', 6);
+(1, 'Helwan', 1),
+(2, 'GIza', 1),
+(3, 'Alexandria', 1),
+(4, 'Banha', 1);
 
 -- --------------------------------------------------------
 
@@ -91,8 +86,8 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`customer_id`, `name`, `email`, `phone`, `address`, `password`, `image`) VALUES
-(8, 'Mostafa Mohamed', 'mostafa@gmail.com', 1096896122, 'Banha', '123', '16537031503a9dc36537b992e0dcd99ac1478e8064.jpg'),
-(9, 'Ahmed Azzam', 'azzam@gmail.com', 1010162658, 'Elmassara ', '123', '16537037833a9dc36537b992e0dcd99ac1478e8064.jpg');
+(1, 'Ahmed Abdelrhim', 'abdelrhim@gmail.com', 1152067271, 'Helwan', '123', 'Ahmed Abdelrhim01152067271.jpg'),
+(10, 'Mostafa Mohamed', 'mostafa@gmail.com', 1206556130, 'Banha', '123', 'Mostafa Mohamed01206556130.jpeg');
 
 -- --------------------------------------------------------
 
@@ -114,7 +109,7 @@ CREATE TABLE `medicines` (
 --
 
 INSERT INTO `medicines` (`id`, `medicine_title`, `medicine_image`, `medicine_description`, `price`, `quantity`) VALUES
-(6, 'Panadol', '1653838557panadol.jpg', 'This drug is used to treat mild to moderate pain (from headaches, menstrual periods, toothaches, backaches, osteoarthritis, or cold/flu aches and pains) and to reduce fever.', 30, 50);
+(6, 'Panadol', '1653838557panadol.jpg', 'This drug is used to treat mild to moderate pain (from headaches, menstrual periods, toothaches, backaches, osteoarthritis, or cold/flu aches and pains) and to reduce fever.', 30, 171);
 
 -- --------------------------------------------------------
 
@@ -141,15 +136,16 @@ CREATE TABLE `pharmacist` (
   `phone` int(11) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `branch_id` int(15) NOT NULL
+  `branch_id` int(15) NOT NULL,
+  `image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `pharmacist`
 --
 
-INSERT INTO `pharmacist` (`id`, `name`, `phone`, `email`, `password`, `branch_id`) VALUES
-(1, 'Mohamed Wael', 11500, 'wael@gmail.com', '123', 1);
+INSERT INTO `pharmacist` (`id`, `name`, `phone`, `email`, `password`, `branch_id`, `image`) VALUES
+(25, 'Mohamed Wael', 1062778352, 'wael@gmail.com', '123', 1, 'Mohamed Wael01062778352.jpeg');
 
 --
 -- Indexes for dumped tables
@@ -159,7 +155,9 @@ INSERT INTO `pharmacist` (`id`, `name`, `phone`, `email`, `password`, `branch_id
 -- Indexes for table `admin`
 --
 ALTER TABLE `admin`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `phone` (`phone`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indexes for table `branches`
@@ -173,7 +171,8 @@ ALTER TABLE `branches`
 --
 ALTER TABLE `customers`
   ADD PRIMARY KEY (`customer_id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `phone` (`phone`);
 
 --
 -- Indexes for table `medicines`
@@ -204,7 +203,7 @@ ALTER TABLE `pharmacist`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `branches`
@@ -216,7 +215,7 @@ ALTER TABLE `branches`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `customer_id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `customer_id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `medicines`
@@ -228,13 +227,13 @@ ALTER TABLE `medicines`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(15) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=300;
 
 --
 -- AUTO_INCREMENT for table `pharmacist`
 --
 ALTER TABLE `pharmacist`
-  MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Constraints for dumped tables
